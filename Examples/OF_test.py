@@ -15,18 +15,18 @@ parser.add_argument('--board', type=str,
 parser.add_argument('--rotation', type=int,
                     default=0, choices=[0, 90, 180, 270],
                     help='Rotation of sensor in degrees.')
-parser.add_argument('--spi-slot', type=str,
-                    default='front', choices=['front', 'back'],
-                    help='Breakout Garden SPI slot.')
 
 args = parser.parse_args()
 
 # Pick the right class for the specified breakout
 SensorClass = PMW3901 if args.board == 'pmw3901' else PAA5100
 
-flo = SensorClass(spi_port=0, spi_cs=1, spi_cs_gpio=BG_CS_FRONT_BCM if args.spi_slot == 'front' else BG_CS_BACK_BCM)
+# For direct connection to Raspberry Pi, you can just use default SPI settings
+flo = SensorClass(spi_port=0, spi_cs=1, spi_cs_gpio=BG_CS_FRONT_BCM)
 flo.set_rotation(args.rotation)
 
+# Pick the right class for the specified breakout
+SensorClass = PMW3901 if args.board == 'pmw3901' else PAA5100
 
 def value_to_char(value):
     charmap = [" ", "░", "▒", "▓", "█"]
