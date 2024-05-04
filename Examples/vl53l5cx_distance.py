@@ -54,7 +54,9 @@ vl53.start_ranging()
 
 
 while True:
+    print("Capturing...")
     if vl53.data_ready():
+        print("Data ready!")
         data = vl53.get_data()
         arr = numpy.flipud(numpy.array(data.distance_mm).reshape((8, 8))).astype('float64')
 
