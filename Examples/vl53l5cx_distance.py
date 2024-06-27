@@ -3,9 +3,9 @@
 
 import time
 import vl53l5cx_ctypes as vl53l5cx
-import ST7789
+# import ST7789
 import numpy
-from PIL import Image
+# from PIL import Image
 from matplotlib import cm
 
 
@@ -27,18 +27,18 @@ def get_palette(name):
     return arr.tobytes()
 
 
-display = ST7789.ST7789(
-    width=240,
-    height=240,
-    rotation=90,
-    port=0,
-    cs=ST7789.BG_SPI_CS_BACK,  # Otherwise it will block the sensor!
-    dc=9,
-    backlight=18,
-    spi_speed_hz=80 * 1000 * 1000,
-    offset_left=0,
-    offset_top=0
-)
+# display = ST7789.ST7789(
+#     width=240,
+#     height=240,
+#     rotation=90,
+#     port=0,
+#     cs=ST7789.BG_SPI_CS_BACK,  # Otherwise it will block the sensor!
+#     dc=9,
+#     backlight=18,
+#     spi_speed_hz=80 * 1000 * 1000,
+#     offset_left=0,
+#     offset_top=0
+# )
 
 pal = get_palette(COLOR_MAP)
 
@@ -80,12 +80,12 @@ while True:
         print(arr)
 
         # Convert to a palette type image
-        img = Image.frombytes("P", (8, 8), arr)
-        img.putpalette(pal)
-        img = img.convert("RGB")
-        img = img.resize((240, 240), resample=Image.NEAREST)
+        # img = Image.frombytes("P", (8, 8), arr)
+        # img.putpalette(pal)
+        # img = img.convert("RGB")
+        # img = img.resize((240, 240), resample=Image.NEAREST)
 
         # Display the result
-        display.display(img)
+        #display.display(img)
 
     time.sleep(0.01)  # Avoid polling *too* fast
