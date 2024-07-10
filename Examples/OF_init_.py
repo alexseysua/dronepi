@@ -7,8 +7,8 @@ __version__ = '0.1.0'
 
 WAIT = -1
 
-BG_CS_FRONT_BCM = 7
-BG_CS_BACK_BCM = 8
+BG_CS_FRONT_BCM = 8
+BG_CS_BACK_BCM = 7
 
 REG_ID = 0x00
 REG_DATA_READY = 0x02
@@ -30,7 +30,7 @@ class PMW3901():
         except ValueError:
             spi_cs = 0
         self.spi_dev.open(spi_port, spi_cs)
-        self.spi_dev.max_speed_hz = 400000
+        self.spi_dev.max_speed_hz = 1000000
         self.spi_dev.no_cs = True
 
         GPIO.setwarnings(False)
@@ -535,6 +535,8 @@ if __name__ == "__main__":
     tx = 0
     ty = 0
     try:
+        prev_time = 0.0
+        curr_time = time.time()
         while True:
             try:
                 x, y = flo.get_motion()
@@ -543,6 +545,10 @@ if __name__ == "__main__":
             tx += x
             ty += y
             print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
-            time.sleep(0.01)
+            time.sleep(0.001)
+            curr_time = time.time()
+            FPS = 1 / (curr_time - prev_time)
+            print("\nFPS:", FPS,"\n")
+            prev_time = curr_time
     except KeyboardInterrupt:
         pass
