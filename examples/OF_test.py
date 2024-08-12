@@ -27,11 +27,11 @@ try:
             continue
         tx += x
         ty += y
-        print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
+        print("Motion: %0.2f %0.2f x: %0.2f y %0.2f" % (x, y, tx, ty))
         time.sleep(0.001)
         curr_time = time.time()
         FPS = 1 / (curr_time - prev_time)
-        print("\nFPS:", FPS,"\n")
+        print("\nFPS: %0.1f" % FPS,"\n")
         prev_time = curr_time
 except KeyboardInterrupt:
     pass
