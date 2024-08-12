@@ -28,6 +28,9 @@ pca.channels[4].duty_cycle = 0x7FFF
 pca.channels[5].duty_cycle = 0x7FFF
 pca.channels[6].duty_cycle = 0x7FFF
 pca.channels[7].duty_cycle = 0x7FFF
+pca.channels[8].duty_cycle = 10
+pca.channels[9].duty_cycle = 65535
+pca.channels[10].duty_cycle = 10
 time.sleep(30)
 pca.channels[0].duty_cycle = 0
 pca.channels[1].duty_cycle = 0
@@ -37,3 +40,6 @@ pca.channels[4].duty_cycle = 0
 pca.channels[5].duty_cycle = 0
 pca.channels[6].duty_cycle = 0
 pca.channels[7].duty_cycle = 0
+pca.channels[8].duty_cycle = 0
+pca.channels[9].duty_cycle = 0
+pca.channels[10].duty_cycle = 0
