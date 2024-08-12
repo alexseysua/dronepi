@@ -1,0 +1,103 @@
+Metadata-Version: 2.3
+Name: pmw3901
+Version: 1.0.0
+Summary: Python library for the PMW3901 optical flow sensor
+Project-URL: GitHub, https://www.github.com/pimoroni/pmw3901-python
+Project-URL: Homepage, https://www.pimoroni.com
+Author-email: Philip Howard <phil@pimoroni.com>
+Maintainer-email: Philip Howard <phil@pimoroni.com>
+License: MIT License
+        
+        Copyright (c) 2018 Pimoroni Ltd.
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: Pi,Raspberry
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: System :: Hardware
+Requires-Python: >=3.7
+Requires-Dist: spidev
+Description-Content-Type: text/markdown
+
+# PMW3901 / PAA5100JE 2-Dimensional Optical Flow Sensor
+
+[![Build Status](https://img.shields.io/github/actions/workflow/status/pimoroni/pmw3901-python/test.yml?branch=main)](https://github.com/pimoroni/pmw3901-python/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/pimoroni/pmw3901-python/badge.svg?branch=main)](https://coveralls.io/github/pimoroni/pmw3901-python?branch=main)
+[![PyPi Package](https://img.shields.io/pypi/v/pmw3901.svg)](https://pypi.python.org/pypi/pmw3901)
+[![Python Versions](https://img.shields.io/pypi/pyversions/pmw3901.svg)](https://pypi.python.org/pypi/pmw3901)
+
+
+# Installing
+
+Stable library from PyPi:
+
+* Just run `python3 -m pip install pmw3901`
+
+Latest/development library from GitHub:
+
+* `git clone https://github.com/pimoroni/pmw3901-python`
+* `cd pmw3901-python`
+* `./install.sh`
+
+# Usage
+
+The PAA5100JE has a slightly different init routine to the PMW3901, you should use the class provided to ensure it's set up correctly:
+
+```
+from pmw3901 import PAA5100
+```
+
+And for the PMW3901, continue using the old class:
+
+```
+from pmw3901 import PMW3901
+```
+
+The example `motion.py` demonstrates setting up either sensor, and accepts a `--board` argument to specify which you'd like to use.
+
+1.0.0
+-----
+
+* Port to gpiod/gpiodevice
+* Repackage to hatch/pyproject.toml
+* BREAKING: spi_cs_gpio will not auto-detect SPI CS line, use spi_cs=(0, 1)
+* BREAKING: Constants `BG_CS_FRONT_BCM` and `BG_CS_BACK_BCM` are now CS lines, not pins
+
+0.1.0
+-----
+
+* Add init support for PAA5100JE
+* Add frame capture support
+
+0.0.1
+-----
+
+* Initial Release
