@@ -21,12 +21,38 @@ pca.frequency = 60
 # Set the PWM duty cycle for channel zero to 50%. duty_cycle is 16 bits to match other PWM objects
 # but the PCA9685 will only actually give 12 bits of resolution.
 
-led_channel = pca.channels[8:11]
+led_channel = pca.channels[8]
 
 # Increase brightness:
-for i in range(0xffff):
+for i in range(65535):
+    time.sleep(0.01)
     led_channel.duty_cycle = i
      
 # Decrease brightness:
-for i in range(0xffff, 0, -1):
+for i in range(65535, 0, -1):
+    time.sleep(0.01)
+    led_channel.duty_cycle = i
+
+led_channel = pca.channels[9]
+
+# Increase brightness:
+for i in range(65535):
+    time.sleep(0.01)
+    led_channel.duty_cycle = i
+     
+# Decrease brightness:
+for i in range(65535, 0, -1):
+    time.sleep(0.01)
+    led_channel.duty_cycle = i
+
+led_channel = pca.channels[10]
+
+# Increase brightness:
+for i in range(65535):
+    time.sleep(0.01)
+    led_channel.duty_cycle = i
+     
+# Decrease brightness:
+for i in range(65535, 0, -1):
+    time.sleep(0.01)
     led_channel.duty_cycle = i
