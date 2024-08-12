@@ -27,13 +27,15 @@ print("Uploading firmware to VL53L5CX, please wait...")
 vl53 = vl53l5cx.VL53L5CX()
 time.sleep(1)
 print("Done!")
-vl53.set_resolution(8 * 8)
+vl53.set_ranging_mode(vl53l5cx.VL53L5CX_RANGING_MODE_CONTINUOUS)
+vl53.set_resolution(4 * 4)
 time.sleep(1)
 
 # This is a visual demo, so prefer speed over accuracy
-vl53.set_ranging_frequency_hz(120)
+vl53.set_ranging_frequency_hz(60)
 time.sleep(1)
-vl53.set_integration_time_ms(1)
+
+vl53.set_integration_time_ms(2)
 time.sleep(1)
 vl53.start_ranging()
 time.sleep(1)
@@ -84,7 +86,8 @@ while True:
     ## DISTANCE SENSOR
     if vl53.data_ready():
         data = vl53.get_data()
-        arr = numpy.flipud(numpy.array(data.distance_mm).reshape((8, 8))).astype('float64')
+        arr = numpy.flipud(numpy.array(data.distance_mm))[0:16]
+        arr = arr.reshape((4, 4)).astype('float64')
     
         # Scale view relative to the furthest distance
         distance = arr.max()
