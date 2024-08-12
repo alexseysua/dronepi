@@ -73,7 +73,7 @@ LED_B = pca.channels[10]
 # Turn on all LEDs
 LED_R.duty_cycle = 60000 # Max value is 65535 (16-bit) and off
 LED_G.duty_cycle = 0     # Min value is 0 (brightest)
-LED_B.duty_cycle = 50000 
+LED_B.duty_cycle = 40000
 
 
 prev_time = 0.0
@@ -106,7 +106,7 @@ while True:
         continue
     tx += x
     ty += y
-    print("Motion: %0.2f  x: %0.2f y %0.2f" % x, y, tx, ty)
+    print("Motion: %0.2f %0.2f, x: %0.2f y %0.2f" % (x, y, tx, ty))
 
     ## IMU SENSOR
     print("Acceleration:")
@@ -132,10 +132,10 @@ while True:
     print("")
 
     ## CURRENT SENSOR
-    print("Voltage: %.2f V" % ina260.voltage())
-    print("Current: %.2f mA" % ina260.current())
-    print("Power: %.2f mW" % ina260.power())
-    print("")
+    #print("Voltage: %.2f V" % ina260.voltage())
+    #print("Current: %.2f mA" % ina260.current())
+    #print("Power: %.2f mW" % ina260.power())
+    #print("")
 
     curr_time = time.time()
     FPS = 1 / (curr_time - prev_time)
