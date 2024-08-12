@@ -15,3 +15,4 @@ while True:
         print(f"Accel: X={accel_x} Y={accel_y} Z={accel_z}")
     except Exception as e:
         print(f"Error: {e}")
+ 

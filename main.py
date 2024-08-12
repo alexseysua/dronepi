@@ -106,7 +106,7 @@ while True:
         continue
     tx += x
     ty += y
-    print("Motion: %0.2f  x: %0.2f y %0.2f" % x, y, tx, ty)
+    print("Motion: %0.2f  x: %0.2f y %0.2f" % (x, y, tx, ty))
 
     ## IMU SENSOR
     print("Acceleration:")

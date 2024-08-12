@@ -535,8 +535,8 @@ if __name__ == "__main__":
     tx = 0
     ty = 0
     try:
-        prev_time = 0.0
-        curr_time = time.time()
+        #prev_time = 0.0
+        #curr_time = time.time()
         while True:
             try:
                 x, y = flo.get_motion()
@@ -546,9 +546,9 @@ if __name__ == "__main__":
             ty += y
             print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
             time.sleep(0.001)
-            curr_time = time.time()
-            FPS = 1 / (curr_time - prev_time)
-            print("\nFPS:", FPS,"\n")
-            prev_time = curr_time
+            #curr_time = time.time()
+            #FPS = 1 / (curr_time - prev_time)
+            #print("\nFPS:", FPS,"\n")
+            #prev_time = curr_time
     except KeyboardInterrupt:
         pass

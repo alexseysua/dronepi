@@ -17,8 +17,10 @@ bno.enable_feature(BNO_REPORT_GYROSCOPE)
 bno.enable_feature(BNO_REPORT_MAGNETOMETER)
 bno.enable_feature(BNO_REPORT_ROTATION_VECTOR)
 
+prev_time = 0.0
+curr_time = time.time()
 while True:
-    time.sleep(0.01)
+    time.sleep(0.001)
     print("Acceleration:")
     accel_x, accel_y, accel_z = bno.acceleration  # pylint:disable=no-member
     print("X: %0.6f  Y: %0.6f Z: %0.6f  m/s^2" % (accel_x, accel_y, accel_z))
@@ -40,3 +42,8 @@ while True:
         "I: %0.6f  J: %0.6f K: %0.6f  Real: %0.6f" % (quat_i, quat_j, quat_k, quat_real)
     )
     print("")
+
+    curr_time = time.time()
+    FPS = 1 / (curr_time - prev_time)
+    print("\nFPS: %0.2f" % FPS,"\n")
+    prev_time = curr_time
