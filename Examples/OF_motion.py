@@ -11,7 +11,8 @@ Press Ctrl+C to exit!
 parser = argparse.ArgumentParser()
 parser.add_argument('--board', type=str,
                     choices=['pmw3901', 'paa5100'],
-                    required=True,
+                    #required=TRUE,
+                    default='pmw3901',
                     help='Breakout type.')
 parser.add_argument('--rotation', type=int,
                     default=0, choices=[0, 90, 180, 270],
@@ -23,9 +24,11 @@ parser.add_argument('--spi-slot', type=str,
 args = parser.parse_args()
 
 # Pick the right class for the specified breakout
-SensorClass = PMW3901 if args.board == 'pmw3901' else PAA5100
+#SensorClass = PMW3901 if args.board == 'pmw3901' else PAA5100
+SensorClass = PMW3901
 
-flo = SensorClass(spi_port=0, spi_cs_gpio=BG_CS_FRONT_BCM if args.spi_slot == 'front' else BG_CS_BACK_BCM)
+#flo = SensorClass(spi_port=0, spi_cs_gpio=BG_CS_FRONT_BCM if args.spi_slot == 'front' else BG_CS_BACK_BCM)
+flo = SensorClass(spi_port=0, spi_cs=0, spi_cs_gpio=8)
 flo.set_rotation(args.rotation)
 
 tx = 0
