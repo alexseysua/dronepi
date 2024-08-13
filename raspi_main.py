@@ -5,6 +5,7 @@ import busio
 import RPi.GPIO as GPIO
 import vl53l5cx_ctypes as vl53l5cx
 import argparse
+from picamera2 import Picamera2
 from pmw3901 import PMW3901, BG_CS_FRONT_BCM, BG_CS_BACK_BCM
 from ina260.controller import Controller
 from adafruit_pca9685 import PCA9685
@@ -77,10 +78,14 @@ LED_R.duty_cycle = 64000 # Max value is 65535 (16-bit) and off
 LED_G.duty_cycle = 0     # Min value is 0 (brightest)
 LED_B.duty_cycle = 40000
 
+''' CAMERA SETUP '''
+camera = Picamera2()
+camera.start_and_record_video("dronpepi/new_video.mp4", show_preview=False, duration = 10)
+
 
 prev_time = 0.0
 curr_time = time.time()
-while True:
+while camera.recording():
     time.sleep(0.0001)
     
     ## DISTANCE SENSOR
