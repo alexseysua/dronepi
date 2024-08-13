@@ -27,12 +27,12 @@ print("Uploading firmware to VL53L5CX, please wait...")
 vl53 = vl53l5cx.VL53L5CX()
 time.sleep(1)
 print("Done!")
-vl53.set_ranging_mode(vl53l5cx.VL53L5CX_RANGING_MODE_CONTINUOUS)
+vl53.set_ranging_mode(vl53l5cx.RANGING_MODE_CONTINUOUS)
 vl53.set_resolution(4 * 4)
 time.sleep(1)
 
 # This is a visual demo, so prefer speed over accuracy
-vl53.set_ranging_frequency_hz(60)
+vl53.set_ranging_frequency_hz(90)
 time.sleep(1)
 
 vl53.set_integration_time_ms(2)
@@ -63,7 +63,7 @@ bno.enable_feature(BNO_REPORT_GYROSCOPE)
 bno.enable_feature(BNO_REPORT_MAGNETOMETER)
 bno.enable_feature(BNO_REPORT_ROTATION_VECTOR)
 
-''' PWM DRIVER SETUP '''
+''' PWM DRIVER SETUP & LIGHTING '''
 # Create a simple PCA9685 class instance.
 pca = PCA9685(i2c)
 pca.frequency = 60
@@ -73,7 +73,7 @@ LED_G = pca.channels[8]
 LED_B = pca.channels[10]
 
 # Turn on all LEDs
-LED_R.duty_cycle = 60000 # Max value is 65535 (16-bit) and off
+LED_R.duty_cycle = 64000 # Max value is 65535 (16-bit) and off
 LED_G.duty_cycle = 0     # Min value is 0 (brightest)
 LED_B.duty_cycle = 40000
 
@@ -81,13 +81,12 @@ LED_B.duty_cycle = 40000
 prev_time = 0.0
 curr_time = time.time()
 while True:
-    time.sleep(0.005)
+    time.sleep(0.0001)
     
     ## DISTANCE SENSOR
     if vl53.data_ready():
         data = vl53.get_data()
-        arr = numpy.flipud(numpy.array(data.distance_mm))[0:16]
-        arr = arr.reshape((4, 4)).astype('float64')
+        arr = numpy.flipud(numpy.array(data.distance_mm)).astype('float64')[0, 0:16].reshape((4, 4))
     
         # Scale view relative to the furthest distance
         distance = arr.max()
@@ -103,14 +102,13 @@ while True:
         print(arr)
     
     ## MOTION SENSOR
-    try:
-        x, y = flo.get_motion()
-    except RuntimeError:
-        continue
-    tx += x
-    ty += y
-    print("Motion: %0.2f %0.2f, x: %0.2f y %0.2f" % (x, y, tx, ty))
-    print("Motion: %0.2f  x: %0.2f y %0.2f" % (x, y, tx, ty))
+#    try:
+#        x, y = flo.get_motion()
+#    except RuntimeError:
+#        continue
+#    tx += x
+#    ty += y
+#    print("Motion: %0.2f %0.2f, x: %0.2f y %0.2f" % (x, y, tx, ty))
 
     ## IMU SENSOR
     print("Acceleration:")
@@ -136,10 +134,10 @@ while True:
     print("")
 
     ## CURRENT SENSOR
-    #print("Voltage: %.2f V" % ina260.voltage())
-    #print("Current: %.2f mA" % ina260.current())
-    #print("Power: %.2f mW" % ina260.power())
-    #print("")
+    print("Voltage: %.2f V" % ina260.voltage())
+    print("Current: %.2f mA" % ina260.current())
+    print("Power: %.2f mW" % ina260.power())
+    print("")
 
     curr_time = time.time()
     FPS = 1 / (curr_time - prev_time)

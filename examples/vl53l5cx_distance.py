@@ -10,12 +10,13 @@ vl53 = vl53l5cx.VL53L5CX()
 time.sleep(1)
 print("Done!")
 vl53.set_resolution(4 * 4)
+#vl53.set_resolution(8 * 8)
 time.sleep(1)
 
 # This is a visual demo, so prefer speed over accuracy
-vl53.set_ranging_frequency_hz(120)
+vl53.set_ranging_frequency_hz(90)
 time.sleep(1)
-vl53.set_integration_time_ms(1)
+vl53.set_integration_time_ms(2)
 time.sleep(1)
 vl53.start_ranging()
 time.sleep(1)
@@ -28,7 +29,9 @@ while True:
     if vl53.data_ready():
         #print("Data ready!")
         data = vl53.get_data()
-        arr = numpy.flipud(numpy.array(data.distance_mm).reshape((8, 8))).astype('float64')
+        arr = numpy.flipud(numpy.array(data.distance_mm)).astype('float64')[0,0:16]
+        arr = arr.reshape((4, 4))
+        #arr = arr.reshape((8, 8))
 
         # Scale view relative to the furthest distance
         distance = arr.max()
@@ -49,8 +52,8 @@ while True:
         arr = arr.astype('uint8')
         print(arr)
 
-    curr_time = time.time()
-    FPS = 1 / (curr_time - prev_time)
-    print("\nFPS: %0.2f" % FPS,"\n")
-    prev_time = curr_time
-    time.sleep(0.001)  # Avoid polling *too* fast
+        curr_time = time.time()
+        FPS = 1 / (curr_time - prev_time)
+        print("\nFPS: %0.2f" % FPS,"\n")
+        prev_time = curr_time
+        time.sleep(0.001)  # Avoid polling *too* fast
