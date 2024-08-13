@@ -119,16 +119,16 @@ while True:
 
         # Force to int
         arr = arr.astype('uint8')
-        print(arr)
+        print("Distances: \n", arr, "\n")
     
     ## MOTION SENSOR
     try:
         x, y = flo.get_motion()
+        tx += x
+        ty += y
+        print("Motion: %0.2f %0.2f, x: %0.2f y %0.2f" % (x, y, tx, ty))
     except RuntimeError:
         continue
-    tx += x
-    ty += y
-    print("Motion: %0.2f %0.2f, x: %0.2f y %0.2f" % (x, y, tx, ty))
 
     ## IMU SENSOR
     print("Acceleration:")
