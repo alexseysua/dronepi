@@ -149,7 +149,7 @@ while time.time() - camera_timer < 10:
     print("\nFPS: %0.2f" % FPS,"\n")
     prev_time = curr_time
 
-camera.stop_and_save_video()
+camera.close()
     
 
 
