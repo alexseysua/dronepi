@@ -80,12 +80,12 @@ LED_B.duty_cycle = 40000
 
 ''' CAMERA SETUP '''
 camera = Picamera2()
-camera.start_and_record_video("dronpepi/new_video.mp4", show_preview=False, duration = 10)
+camera.start_and_record_video("new_video.mp4", show_preview=False, duration = 10)
 
-
+camera_timer = time.time()
 prev_time = 0.0
 curr_time = time.time()
-while camera.recording():
+while time.time() - camera_timer < 10:
     time.sleep(0.0001)
     
     ## DISTANCE SENSOR
@@ -149,6 +149,7 @@ while camera.recording():
     print("\nFPS: %0.2f" % FPS,"\n")
     prev_time = curr_time
 
+camera.stop_and_save_video()
     
 
 
