@@ -129,7 +129,7 @@ class PMW3901():
             print("Comparison time: ", comparison_time - unpack_data_time)
             return x, y
         else:
-            return None, None
+            return None
 
         #raise RuntimeError("Timed out waiting for motion data.")
 
@@ -548,15 +548,27 @@ if __name__ == "__main__":
         curr_time = time.time()
         while True:
             try:
+                t_start = time.time()
                 x, y = flo.get_motion()
+                time_get_data = time.time()
                 tx += x
                 ty += y
+                time_add_data = time.time()
                 print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
+                time_print_data = time.time()
                 curr_time = time.time()
                 FPS = 1 / (curr_time - prev_time)
+                time_calc_FPS = time.time()
                 print("\nFPS:", FPS,"\n")
+                time_print_FPS = time.time()
                 prev_time = curr_time
+                print("Time to get data: ", time_get_data - t_start)
+                print("Time to add data: ", time_add_data - time_get_data)
+                print("Time to print data: ", time_print_data - time_add_data)
+                print("Time to calculate FPS: ", time_calc_FPS - time_print_data)
+                print("Time to print FPS: ", time_print_FPS - time_calc_FPS)
             except:
+                print("In Exception")
                 continue
 
             #x, y = flo.get_motion()
@@ -570,7 +582,6 @@ if __name__ == "__main__":
             #    FPS = 1 / (curr_time - prev_time)
             #    print("\nFPS:", FPS,"\n")
             #    prev_time = curr_time
-            time.sleep(0.01)
 
     except KeyboardInterrupt:
         pass
