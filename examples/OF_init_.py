@@ -106,32 +106,31 @@ class PMW3901():
         :param timeout: Timeout in seconds
 
         """
-        t_start = time.time()
-        while time.time() - t_start < timeout:
-            GPIO.output(self.spi_cs_gpio, 0)
-            read_data_time1 = time.time()
-            data = self.spi_dev.xfer2([REG_MOTION_BURST] + [0 for x in range(12)])
-            get_data_time = time.time()
-            GPIO.output(self.spi_cs_gpio, 1)
-            read_data_time2 = time.time()
-            (_, dr, obs,
-             x, y, quality,
-             raw_sum, raw_max, raw_min,
-             shutter_upper,
-             shutter_lower) = struct.unpack("<BBBhhBBBBBB", bytearray(data))
-            unpack_data_time = time.time()
-            if dr & 0b10000000 and not (quality < 0x19 and shutter_upper == 0x1f):
-                comparison_time = time.time()
-                # Print the time taken for each step
-                print("Read data time: ", read_data_time2 - read_data_time1)
-                print("Get data time: ", get_data_time - read_data_time2)
-                print("Unpack data time: ", unpack_data_time - get_data_time)
-                print("Comparison time: ", comparison_time - unpack_data_time)
-                return x, y
-           
-            time.sleep(0.01)
+        #t_start = time.time()
+        GPIO.output(self.spi_cs_gpio, 0)
+        #read_data_time1 = time.time()
+        data = self.spi_dev.xfer2([REG_MOTION_BURST] + [0 for x in range(12)])
+        #get_data_time = time.time()
+        GPIO.output(self.spi_cs_gpio, 1)
+        #read_data_time2 = time.time()
+        (_, dr, obs,
+            x, y, quality,
+            raw_sum, raw_max, raw_min,
+            shutter_upper,
+            shutter_lower) = struct.unpack("<BBBhhBBBBBB", bytearray(data))
+        unpack_data_time = time.time()
+        if dr & 0b10000000 and not (quality < 0x19 and shutter_upper == 0x1f):
+            #comparison_time = time.time()
+            # Print the time taken for each step
+            #print("Read data time: ", read_data_time2 - read_data_time1)
+            #print("Get data time: ", get_data_time - read_data_time2)
+            #print("Unpack data time: ", unpack_data_time - get_data_time)
+            #print("Comparison time: ", comparison_time - unpack_data_time)
+            return x, y
+        else:
+            return False, False
 
-        raise RuntimeError("Timed out waiting for motion data.")
+        #raise RuntimeError("Timed out waiting for motion data.")
 
     def get_motion_slow(self, timeout=5):
         """Get motion data from PMW3901.
