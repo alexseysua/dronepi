@@ -547,8 +547,25 @@ if __name__ == "__main__":
         prev_time = 0.0
         curr_time = time.time()
         while True:
-            try:
-                x, y = flo.get_motion()
+#            try:
+#                t_start = time.time()
+#                x, y = flo.get_motion()
+#                print("Time taken: ", time.time() - t_start)
+#                tx += x
+#                ty += y
+#                print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
+#                curr_time = time.time()
+#                FPS = 1 / (curr_time - prev_time)
+#                print("\nFPS:", FPS,"\n")
+#                prev_time = curr_time
+#            except:
+#                continue
+            t_start = time.time()
+            x, y = flo.get_motion()
+            if x == None:
+                continue
+            else:
+                print("Time taken: ", time.time() - t_start)
                 tx += x
                 ty += y
                 print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
@@ -556,20 +573,6 @@ if __name__ == "__main__":
                 FPS = 1 / (curr_time - prev_time)
                 print("\nFPS:", FPS,"\n")
                 prev_time = curr_time
-            except:
-                continue
-
-            #x, y = flo.get_motion()
-            #if x == None:
-            #    continue
-            #else:
-            #    tx += x
-            #    ty += y
-            #    print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
-            #    curr_time = time.time()
-            #    FPS = 1 / (curr_time - prev_time)
-            #    print("\nFPS:", FPS,"\n")
-            #    prev_time = curr_time
             time.sleep(0.01)
 
     except KeyboardInterrupt:
