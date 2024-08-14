@@ -551,6 +551,25 @@ if __name__ == "__main__":
                 t_start = time.time()
                 x, y = flo.get_motion()
                 time_get_data = time.time()
+#            try:
+#                t_start = time.time()
+#                x, y = flo.get_motion()
+#                print("Time taken: ", time.time() - t_start)
+#                tx += x
+#                ty += y
+#                print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
+#                curr_time = time.time()
+#                FPS = 1 / (curr_time - prev_time)
+#                print("\nFPS:", FPS,"\n")
+#                prev_time = curr_time
+#            except:
+#                continue
+            t_start = time.time()
+            x, y = flo.get_motion()
+            if x == None:
+                continue
+            else:
+                print("Time taken: ", time.time() - t_start)
                 tx += x
                 ty += y
                 time_add_data = time.time()
