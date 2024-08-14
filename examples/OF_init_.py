@@ -544,19 +544,32 @@ if __name__ == "__main__":
         prev_time = 0.0
         curr_time = time.time()
         while True:
-            x, y = flo.get_motion_slow()
-            if x is not None:
-                tx += x
-                ty += y
-                print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
-                curr_time = time.time()
-                FPS = 1 / (curr_time - prev_time)
-                print("FPS:", FPS,"\n")
-                prev_time = curr_time
-            else:
-               print("Getting None")
-               continue
+            # x, y = flo.get_motion_slow()
+            # if x is not None:
+            #     tx += x
+            #     ty += y
+            #     print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
+            #     curr_time = time.time()
+            #     FPS = 1 / (curr_time - prev_time)
+            #     print("FPS:", FPS,"\n")
+            #     prev_time = curr_time
+            # else:
+            #    print("Getting None")
+            #    continue
+
+            try:
+                x, y = flo.get_motion()
+            except RuntimeError:
+                continue
+            tx += x
+            ty += y
+            print("Motion: %0.2f %0.2f x: %0.2f y %0.2f" % (x, y, tx, ty))
+            time.sleep(0.001)
+            curr_time = time.time()
+            FPS = 1 / (curr_time - prev_time)
+            print("\nFPS: %0.1f" % FPS,"\n")
+            prev_time = curr_time
             
-            time.sleep(0.005)
+            time.sleep(0.001)
     except KeyboardInterrupt:
         pass
