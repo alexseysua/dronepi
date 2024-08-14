@@ -106,29 +106,19 @@ class PMW3901():
         :param timeout: Timeout in seconds
 
         """
-        # t_start = time.time()
         GPIO.output(self.spi_cs_gpio, 0)
-        # read_data_time1 = time.time()
         data = self.spi_dev.xfer2([REG_MOTION_BURST] + [0 for x in range(12)])
-        # get_data_time = time.time()
         GPIO.output(self.spi_cs_gpio, 1)
-        # read_data_time2 = time.time()
         (_, dr, obs,
             x, y, quality,
             raw_sum, raw_max, raw_min,
             shutter_upper,
             shutter_lower) = struct.unpack("<BBBhhBBBBBB", bytearray(data))
-        # unpack_data_time = time.time()
         #if dr & 0b10000000 and not (quality < 0x19 and shutter_upper == 0x1f):
         print("Dr: ", dr)
         if not (quality < 0x19 and shutter_upper == 0x1f):
-            # comparison_time = time.time()
-            # Print the time taken for each step
-            # print("Read data time: ", read_data_time1 - t_start)
-            # print("Get data time: ", get_data_time - read_data_time1)
-            # print("Read data time 2: ", read_data_time2 - get_data_time)
-            # print("Unpack data time: ", unpack_data_time - read_data_time2)
-            # print("Comparison time: ", comparison_time - unpack_data_time)
+            status = self._read(REG_RAWDATA_GRAB_STATUS)
+            print("Status: ", status)
             return x, y
         else:
             return None, None
@@ -549,67 +539,19 @@ if __name__ == "__main__":
         prev_time = 0.0
         curr_time = time.time()
         while True:
-            # try:
-            #     t_start = time.time()
-            #     x, y = flo.get_motion()
-            #     time_get_data = time.time()
-            #     tx += x
-            #     ty += y
-            #     time_add_data = time.time()
-            #     print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
-            #     time_print_data = time.time()
-            #     curr_time = time.time()
-            #     FPS = 1 / (curr_time - prev_time)
-            #     time_calc_FPS = time.time()
-            #     print("\nFPS:", FPS,"\n")
-            #     time_print_FPS = time.time()
-            #     prev_time = curr_time
-            #     print("Time to get data: ", time_get_data - t_start)
-            #     print("Time to add data: ", time_add_data - time_get_data)
-            #     print("Time to print data: ", time_print_data - time_add_data)
-            #     print("Time to calculate FPS: ", time_calc_FPS - time_print_data)
-            #     print("Time to print FPS: ", time_print_FPS - time_calc_FPS)
-            # except:
-            #    print("In Exception")
-            #    continue
-
-            # t_start = time.time()
-            x, y = flo.get_motion_slow()
-            # time_get_data = time.time()
+            x, y = flo.get_motion()
             if x is not None:
                 tx += x
                 ty += y
-                # time_add_data = time.time()
                 print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
-                # time_print_data = time.time()
                 curr_time = time.time()
                 FPS = 1 / (curr_time - prev_time)
-                # time_calc_FPS = time.time()
                 print("FPS:", FPS,"\n")
-                # time_print_FPS = time.time()
                 prev_time = curr_time
-                # print("Time to get data: ", time_get_data - t_start)
-                # print("Time to add data: ", time_add_data - time_get_data)
-                # print("Time to print data: ", time_print_data - time_add_data)
-                # print("Time to calculate FPS: ", time_calc_FPS - time_print_data)
-                # print("Time to print FPS: ", time_print_FPS - time_calc_FPS)
             else:
                print("Getting None")
                continue
             
-
-            # x, y = flo.get_motion()
-            # if x == None:
-            #    print("Getting None")
-            #    continue
-            # else:
-            #    tx += x
-            #    ty += y
-            #    print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
-            #    curr_time = time.time()
-            #    FPS = 1 / (curr_time - prev_time)
-            #    print("\nFPS:", FPS,"\n")
-            #    prev_time = curr_time
             time.sleep(0.005)
     except KeyboardInterrupt:
         pass
