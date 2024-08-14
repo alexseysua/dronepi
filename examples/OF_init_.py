@@ -114,16 +114,15 @@ class PMW3901():
             raw_sum, raw_max, raw_min,
             shutter_upper,
             shutter_lower) = struct.unpack("<BBBhhBBBBBB", bytearray(data))
-        #if dr & 0b10000000 and not (quality < 0x19 and shutter_upper == 0x1f):
-        print("Dr: ", dr)
-        if not (quality < 0x19 and shutter_upper == 0x1f):
-            status = self._read(REG_RAWDATA_GRAB_STATUS)
+        if dr & 0b10000000 and not (quality < 0x19 and shutter_upper == 0x1f):
+        #print("Dr: ", dr)
+        #if not (quality < 0x19 and shutter_upper == 0x1f):
+        #    status = self._read(REG_RAWDATA_GRAB_STATUS)
 
-            print("Status: ", status)
-            print("Status Type: ", type(status))
-            t_or_f = status & 0b11000000
-            print("T or F: ", t_or_f)
-
+        #    print("Status: ", status)
+        #    print("Status Type: ", type(status))
+        #    t_or_f = status & 0b11000000
+        #    print("T or F: ", t_or_f)
             return x, y
         else:
             return None, None
