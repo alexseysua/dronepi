@@ -574,7 +574,7 @@ if __name__ == "__main__":
             #    continue
 
             # t_start = time.time()
-            x, y = flo.get_motion()
+            x, y = flo.get_motion_slow()
             # time_get_data = time.time()
             if x is not None:
                 tx += x
