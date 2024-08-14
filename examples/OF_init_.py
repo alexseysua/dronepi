@@ -544,7 +544,7 @@ if __name__ == "__main__":
         prev_time = 0.0
         curr_time = time.time()
         while True:
-            x, y = flo.get_motion()
+            x, y = flo.get_motion_slow()
             if x is not None:
                 tx += x
                 ty += y

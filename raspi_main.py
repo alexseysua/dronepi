@@ -22,6 +22,7 @@ from adafruit_bno08x.i2c import BNO08X_I2C
 # GPIO.setup(27, GPIO.OUT)
 # GPIO.output(27, GPIO.HIGH)
 
+IS_CAMERA = False
 
 ''' DISTANCE SENSOR SETUP '''
 print("Uploading firmware to VL53L5CX, please wait...")
@@ -79,8 +80,9 @@ LED_G.duty_cycle = 0     # Min value is 0 (brightest)
 LED_B.duty_cycle = 40000
 
 ''' CAMERA SETUP '''
-camera = Picamera2()
-camera.start_and_record_video("new_video.mp4", show_preview=False, duration = 10)
+if IS_CAMERA:
+    camera = Picamera2()
+    camera.start_and_record_video("new_video.mp4", show_preview=False, duration = 10)
 
 camera_timer = time.time()
 prev_time = 0.0
@@ -107,13 +109,13 @@ while time.time() - camera_timer < 10:
         print(arr)
     
     ## MOTION SENSOR
-#    try:
-#        x, y = flo.get_motion()
-#    except RuntimeError:
-#        continue
-#    tx += x
-#    ty += y
-#    print("Motion: %0.2f %0.2f, x: %0.2f y %0.2f" % (x, y, tx, ty))
+    try:
+        x, y = flo.get_motion()
+    except RuntimeError:
+        continue
+    tx += x
+    ty += y
+    print("Motion: %0.2f %0.2f, x: %0.2f y %0.2f" % (x, y, tx, ty))
 
     ## IMU SENSOR
     print("Acceleration:")
@@ -149,7 +151,8 @@ while time.time() - camera_timer < 10:
     print("\nFPS: %0.2f" % FPS,"\n")
     prev_time = curr_time
 
-camera.close()
+if IS_CAMERA:
+    camera.close()
     
 
 
