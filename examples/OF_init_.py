@@ -118,7 +118,12 @@ class PMW3901():
         print("Dr: ", dr)
         if not (quality < 0x19 and shutter_upper == 0x1f):
             status = self._read(REG_RAWDATA_GRAB_STATUS)
+
             print("Status: ", status)
+            print("Status Type: ", type(status))
+            t_or_f = status & 0b11000000
+            print("T or F: ", t_or_f)
+
             return x, y
         else:
             return None, None
