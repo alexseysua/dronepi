@@ -106,13 +106,13 @@ class PMW3901():
         :param timeout: Timeout in seconds
 
         """
-        #t_start = time.time()
+        t_start = time.time()
         GPIO.output(self.spi_cs_gpio, 0)
-        #read_data_time1 = time.time()
+        read_data_time1 = time.time()
         data = self.spi_dev.xfer2([REG_MOTION_BURST] + [0 for x in range(12)])
-        #get_data_time = time.time()
+        get_data_time = time.time()
         GPIO.output(self.spi_cs_gpio, 1)
-        #read_data_time2 = time.time()
+        read_data_time2 = time.time()
         (_, dr, obs,
             x, y, quality,
             raw_sum, raw_max, raw_min,
@@ -120,12 +120,13 @@ class PMW3901():
             shutter_lower) = struct.unpack("<BBBhhBBBBBB", bytearray(data))
         unpack_data_time = time.time()
         if dr & 0b10000000 and not (quality < 0x19 and shutter_upper == 0x1f):
-            #comparison_time = time.time()
+            comparison_time = time.time()
             # Print the time taken for each step
-            #print("Read data time: ", read_data_time2 - read_data_time1)
-            #print("Get data time: ", get_data_time - read_data_time2)
-            #print("Unpack data time: ", unpack_data_time - get_data_time)
-            #print("Comparison time: ", comparison_time - unpack_data_time)
+            print("Read data time: ", read_data_time1 - t_start)
+            print("Get data time: ", get_data_time - read_data_time1)
+            print("Read data time 2: ", read_data_time2 - get_data_time)
+            print("Unpack data time: ", unpack_data_time - read_data_time2)
+            print("Comparison time: ", comparison_time - unpack_data_time)
             return x, y
         else:
             return None, None
@@ -546,22 +547,8 @@ if __name__ == "__main__":
         prev_time = 0.0
         curr_time = time.time()
         while True:
-            # try:
-            #     x, y = flo.get_motion()
-            #     tx += x
-            #     ty += y
-            #     print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
-            #     curr_time = time.time()
-            #     FPS = 1 / (curr_time - prev_time)
-            #     print("\nFPS:", FPS,"\n")
-            #     prev_time = curr_time
-            # except:
-            #     continue
-
-            x, y = flo.get_motion()
-            if x == None or y == None:
-                continue
-            else:
+            try:
+                x, y = flo.get_motion()
                 tx += x
                 ty += y
                 print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
@@ -569,7 +556,21 @@ if __name__ == "__main__":
                 FPS = 1 / (curr_time - prev_time)
                 print("\nFPS:", FPS,"\n")
                 prev_time = curr_time
-            
+            except:
+                continue
+
+            #x, y = flo.get_motion()
+            #if x == None:
+            #    continue
+            #else:
+            #    tx += x
+            #    ty += y
+            #    print("Motion: {:03d} {:03d} x: {:03d} y {:03d}".format(x, y, tx, ty))
+            #    curr_time = time.time()
+            #    FPS = 1 / (curr_time - prev_time)
+            #    print("\nFPS:", FPS,"\n")
+            #    prev_time = curr_time
+            time.sleep(0.01)
 
     except KeyboardInterrupt:
         pass
